@@ -2,14 +2,27 @@
 import sceneCore
 
 class GameMap:
-	def __init__(self, startScene):
-		self.currentScene = startScene
+	scenes = {
+		'load': sceneCore.LoadGame(),
+		'options': sceneCore.Options(),
+		'save': sceneCore.SaveGame(),
+		'start': sceneCore.StartGame(),
+		'the end': sceneCore.TheEnd(),
+	}
 	
-	def nextScene(self,sceneName):
-		pass
+	def __init__(self, startScene):
+		self.start_scene = start_scene
+		self.prev_scene
+	
+	def firstScene(self):
+		return self.nextScene(self.startScene)
+	
+	def nextScene(self,scene_name):
+		scene = self.scenes.get(scene_name)
+		return scene
 
-	def enterCurrentScene():
-		self.currentScene.enter()
+	def savePrevScene(self, scene_name):
+		self.prev_scene = scene_name
 		
-	def Options():
-		sceneCore.Options.enter()
+	def prevScene(self):
+		return self.prev_scene

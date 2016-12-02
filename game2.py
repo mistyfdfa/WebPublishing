@@ -8,4 +8,4 @@ import gameCore
 session = gameCore.GameSession()
 activeGame = 1
 while activeGame: 
-	activeGame = session.startGame()
+	activeGame = session.startEngine()
