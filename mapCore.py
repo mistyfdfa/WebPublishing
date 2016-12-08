@@ -2,27 +2,40 @@
 import sceneCore
 
 class GameMap:
-	scenes = {
-		'load': sceneCore.LoadGame(),
-		'options': sceneCore.Options(),
-		'save': sceneCore.SaveGame(),
-		'start': sceneCore.StartGame(),
-		'the end': sceneCore.TheEnd(),
+	menus = {
+		'mnu bad': sceneCore.BadDestination(),
+		'mnu load': sceneCore.LoadGame(),
+		'mnu new': sceneCore.NewGame(),
+		'mnu options': sceneCore.Options(),
+		'mnu quit': sceneCore.Quit(),
+		'mnu save': sceneCore.SaveGame(),
+		'mnu start': sceneCore.StartGame(),
 	}
 	
-	def __init__(self, startScene):
-		self.start_scene = start_scene
-		self.prev_scene
+	scenes = {
+		'scn opening': sceneCore.Opening(),
+		'scn death': sceneCore.Death(),
+	}
 	
+	def __init__(self, start_scene):
+		self.first_scene = start_scene
+		self.prev_scene = start_scene
+			
+	#sets first scene to a new scene
+	def reset(self, start_scene):
+		self.first_scene = start_scene
+	
+	#run loadScene on first_scene
 	def firstScene(self):
-		return self.nextScene(self.startScene)
+		return self.loadScene(self.first_scene)
 	
-	def nextScene(self,scene_name):
-		scene = self.scenes.get(scene_name)
-		return scene
-
-	def savePrevScene(self, scene_name):
-		self.prev_scene = scene_name
+	#gets a scene instance from the dictionary based on tag
+	def loadScene(self,scene_name):
+		if scene_name.startswith("mnu"):
+			load_this = self.menus.get(scene_name.strip("\n"))
+		elif scene_name.startswith("scn"):
+			load_this = self.scenes.get(scene_name.strip("\n"))
+		else:
+			load_this = self.menus.get('mnu bad')
 		
-	def prevScene(self):
-		return self.prev_scene
+		return load_this
