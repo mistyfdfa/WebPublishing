@@ -1,36 +1,54 @@
-import LocalDate;
+package resources.ShellScriptRunner;
 
-String setting, teaser, rating, tumblrUrl;
-String[] tags, subGenre, categories;
-int wordCount;
-LocalDate posted, updated;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.LinkedList;
 
-class TeaserTemplate {
+import resources.ShellScriptRunner.Utils.FileTools;
+import resources.utilities.Functions;
+
+public class TeaserTemplate {
+	
+	String teaser, rating, tumblrUrl, blogUrl;
+	String[] tags, subGenre, categories;
+	int wordCount, setIndex;
+	LocalDate posted, updated;
+
+	LinkedList<String> settingList;
 
   public TeaserTemplate (
-    String set,
-    String tease,
-    String rate,
-    String tumblr,
-    String[] tags,
-    String[] subGenre,
-    String[] categories,
-    int wordCount,
-    LocalDate postDate){
-      setting = set;
-      teaser = tease;
-      rating = rate;
-      tumblrUrl = tumblr;
-      this.tags = tags;
-      this.subGenre = subGenre;
-      this.categories = categories;
-      posted = postDate;
-      updated = LocalDate.today();
-    }
+		  String tease,
+		  String rate,
+		  String tumblr,
+		  String[] tags,
+		  String[] subGenre,
+		  String[] categories,
+		  LocalDate posted,
+		  int wordCount,
+		  int setIndex,
+	LocalDate postDate){
+	  teaser = tease;
+	  rating = rate;
+	  tumblrUrl = tumblr;
+	  this.tags = tags;
+	  this.subGenre = subGenre;
+	  this.categories = categories;
+	  posted = postDate;
+	  updated = LocalDate.now();
+	  this.setIndex = setIndex;
+	  
+	  try {
+		  settingList = FileTools.openFileAndReadLines("settingList.txt");
+	  } catch (IOException ioe) {
+		  Functions.exitGracefully(ioe);
+	  }
+	}
 
-    public String getSetting () {
-      return setting;
-    }
+	public String formatSetting () {
+	  return Functions.readProperties("formatting", "set"+setIndex+"html");
+	}
   
   /*
   <em>A Tale from<a href="/tagged/the-far-shore"> The Far Shore</a></em>
